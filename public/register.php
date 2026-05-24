@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
             }
         } catch (Throwable $error) {
-            $errorMessage = 'Could not create account.';
+            $errorMessage = 'Could not create account. Please try again.';
         }
     }
 }
@@ -51,39 +51,78 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Marvel Game</title>
+    <title>Register — Marvel Trivia</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <header class="site-header">
-        <h1>Create Account</h1>
-        <p>Register to play the Marvel Game.</p>
+        <a class="header-left" href="index.php" style="text-decoration:none">
+            <h1>Marvel Trivia</h1>
+            <span class="header-tagline">Test Your Universe</span>
+        </a>
+        <nav class="header-right">
+            <a class="nav-link back-link" href="index.php">← Back</a>
+        </nav>
     </header>
 
-    <main class="page-content">
-        <?php if ($errorMessage !== ''): ?>
-            <p class="message"><?php echo htmlspecialchars($errorMessage); ?></p>
-        <?php endif; ?>
+    <main class="auth-page">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <h2>Marvel Trivia</h2>
+                <p>Join and compete on the leaderboard</p>
+            </div>
 
-        <form method="post" action="register.php">
-            <p>
-                <label for="username">Username</label><br>
-                <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($_POST['username'] ?? ''); ?>">
+            <h3 class="auth-title">Create Account</h3>
+
+            <?php if ($errorMessage !== ''): ?>
+                <div class="auth-error"><?php echo htmlspecialchars($errorMessage); ?></div>
+            <?php endif; ?>
+
+            <form method="post" action="register.php">
+                <div class="auth-field">
+                    <label for="username">Username</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Choose a username"
+                        value="<?php echo htmlspecialchars($_POST['username'] ?? ''); ?>"
+                        autocomplete="username"
+                    >
+                </div>
+
+                <div class="auth-field">
+                    <label for="email">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="your@email.com"
+                        value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>"
+                        autocomplete="email"
+                    >
+                </div>
+
+                <div class="auth-field">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Create a password"
+                        autocomplete="new-password"
+                    >
+                </div>
+
+                <button class="button auth-submit" type="submit">Create Account</button>
+            </form>
+
+            <div class="auth-divider">or</div>
+
+            <p class="auth-footer">
+                Already have an account? <a href="login.php">Sign in</a>
             </p>
-
-            <p>
-                <label for="email">Email</label><br>
-                <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
-            </p>
-
-            <p>
-                <label for="password">Password</label><br>
-                <input type="password" id="password" name="password">
-            </p>
-
-            <button class="button" type="submit">Register</button>
-            <a class="button" href="login.php">Login</a>
-        </form>
+        </div>
     </main>
 </body>
 </html>
