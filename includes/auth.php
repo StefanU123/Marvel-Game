@@ -32,6 +32,16 @@ function requireLogin(): void
     }
 }
 
+function requireAdmin(): void
+{
+    requireLogin();
+
+    if ($_SESSION['user']['role'] !== 'admin') {
+        echo 'Access denied';
+        exit;
+    }
+}
+
 function logout(): void
 {
     startSessionIfNeeded();

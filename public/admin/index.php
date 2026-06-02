@@ -1,5 +1,5 @@
 <?php
-require_once '../includes/auth.php';
+require_once '../../includes/auth.php';
 
 requireAdmin();
 
@@ -12,7 +12,7 @@ $username = $user['username'] ?? 'Admin';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
-    <link rel="stylesheet" href="../public/assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
     <main>
@@ -25,7 +25,7 @@ $username = $user['username'] ?? 'Admin';
                 <li><a href="heroes.php">Heroes</a></li>
                 <li><a href="import.php">Import</a></li>
                 <li><a href="export.php">Export</a></li>
-                <li><a href="../public/index.php">Public Site</a></li>
+                <li><a href="../index.php">Public Site</a></li>
             </ul>
         </nav>
     </main>
