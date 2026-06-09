@@ -58,9 +58,9 @@ $questions = $questionStatement->fetchAll();
                         <td><?php echo htmlspecialchars($question['question_text']); ?></td>
                         <td><?php echo htmlspecialchars($question['correct_option']); ?></td>
                         <td>
-                            <a href="#">Edit</a>
+                            <a href="edit_question.php?id=<?php echo htmlspecialchars($question['id']); ?>">Edit</a>
                             |
-                            <a href="#">Delete</a>
+                            <a href="delete_question.php?id=<?php echo htmlspecialchars($question['id']); ?>" onclick="return confirm('Are you sure you want to delete this question?');">Delete</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

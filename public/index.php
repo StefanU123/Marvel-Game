@@ -36,6 +36,9 @@ try {
 
             <?php if ($user): ?>
                 <span class="nav-user">Hey, <span><?php echo htmlspecialchars($user['username']); ?></span></span>
+                <?php if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'admin'): ?>
+                    <a class="nav-btn" href="admin/index.php">Admin Panel</a>
+                <?php endif; ?>
                 <a class="nav-btn nav-btn--outline" href="logout.php">Logout</a>
             <?php else: ?>
                 <a class="nav-btn nav-btn--outline" href="login.php">Login</a>
