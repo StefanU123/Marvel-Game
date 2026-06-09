@@ -22,7 +22,7 @@ $username = $user['username'] ?? 'Admin';
         <nav>
             <ul>
                 <li><a href="questions.php">Questions</a></li>
-                <li><a href="heroes.php">Heroes</a></li>
+                <li><a href="heroes.php">Manage Heroes</a></li>
                 <li><a href="import.php">Import</a></li>
                 <li><a href="export.php">Export</a></li>
                 <li><a href="../index.php">Public Site</a></li>
