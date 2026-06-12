@@ -198,5 +198,6 @@ if ($heroId === false || $heroId === null) {
         window.__I18N__ = <?php echo json_encode(jsTranslations(), JSON_UNESCAPED_UNICODE); ?>;
     </script>
     <script src="assets/js/app.js"></script>
+    <script src="assets/js/notifications.js"></script>
 </body>
 </html>

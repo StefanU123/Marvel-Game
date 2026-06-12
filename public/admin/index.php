@@ -61,5 +61,6 @@ $username = $user['username'] ?? 'Admin';
             </a>
         </div>
     </main>
+    <script src="../assets/js/notifications.js"></script>
 </body>
 </html>

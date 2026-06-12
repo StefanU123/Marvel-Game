@@ -188,6 +188,8 @@ function buildFilterUrl(?int $hero, string $diff): string
             <section class="leaderboard-section">
                 <div class="leaderboard-header">
                     <h2><?php echo t('lbp.fullRankings'); ?></h2>
+                    <button class="button button--ghost" id="enable-notifications" type="button">Enable leaderboard notifications</button>
+                    <small id="notification-status" aria-live="polite"></small>
                     <span class="leaderboard-live-badge">
                         <span class="leaderboard-live-dot"></span>
                         <?php echo count($leaderboard); ?> <?php echo t('lbp.players'); ?>
@@ -277,5 +279,6 @@ function buildFilterUrl(?int $hero, string $diff): string
             </a>
         </div>
     </main>
+    <script src="assets/js/notifications.js"></script>
 </body>
 </html>

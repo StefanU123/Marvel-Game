@@ -34,6 +34,8 @@ try {
         <nav class="header-right">
             <a class="lang-toggle" href="<?php echo htmlspecialchars(langSwitchUrl(otherLang())); ?>"><?php echo t('lang.switch'); ?></a>
             <a class="nav-link" href="leaderboard.php"><?php echo t('nav.leaderboard'); ?></a>
+            <button class="nav-btn nav-btn--outline" id="enable-notifications" type="button">Enable notifications</button>
+            <small id="notification-status" aria-live="polite"></small>
             <span class="nav-divider"></span>
 
             <?php if ($user): ?>
@@ -154,5 +156,6 @@ try {
                 .finally(() => setTimeout(refreshLb, 30000));
         }, 30000);
     </script>
+    <script src="assets/js/notifications.js"></script>
 </body>
 </html>

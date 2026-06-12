@@ -126,5 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </p>
         </div>
     </main>
+    <script src="assets/js/notifications.js"></script>
 </body>
 </html>
