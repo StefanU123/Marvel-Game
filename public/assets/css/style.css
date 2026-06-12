@@ -325,6 +325,12 @@ body {
 
 .home-main { min-width: 0; }
 
+.home-report-link {
+    display: flex;
+    justify-content: center;
+    margin-top: -1rem;
+}
+
 @media (min-width: 1000px) {
     .home-layout {
         grid-template-columns: minmax(0, 1fr) 340px;

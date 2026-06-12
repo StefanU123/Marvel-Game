@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Marvel Trivia Game - Scholarly HTML SRS Report</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            --red: #e62429;
+            --red-dark: #b5151a;
+            --red-glow: rgba(230, 36, 41, 0.3);
+            --gold: #f4c542;
+            --bg: #08080a;
+            --bg-card: #101015;
+            --bg-card-h: #16161e;
+            --bg-table: #121218;
+            --border: rgba(255, 255, 255, 0.09);
+            --border-strong: rgba(230, 36, 41, 0.45);
+            --text: #f3f3f7;
+            --text-soft: #b4b4c4;
+            --text-muted: #85859a;
+            --radius: 10px;
+            --radius-lg: 18px;
+            --transition: 0.2s ease;
+            --font-display: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+            --font-heading: "Arial Narrow", "Segoe UI Condensed", Arial, sans-serif;
+            --font-body: "Segoe UI", Arial, sans-serif;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: var(--bg);
+            background-image:
+                radial-gradient(ellipse 80% 50% at 50% -10%, rgba(230, 57, 70, 0.09), transparent 60%),
+                radial-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px;
+            color: var(--text);
+            font: 16px/1.65 var(--font-body);
+        }
+
+        article {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 4rem;
+        }
+
+        header {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            padding: 2rem;
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius-lg);
+            background:
+                linear-gradient(135deg, rgba(230, 36, 41, 0.18), transparent 42%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018)),
+                var(--bg-card);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-top: 3px solid var(--red);
+            pointer-events: none;
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin: 0;
+            color: var(--text);
+            font-family: var(--font-heading);
+            line-height: 1.18;
+        }
+
+        h1 {
+            max-width: 820px;
+            font-family: var(--font-display);
+            font-size: clamp(2.35rem, 6vw, 4.4rem);
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.85rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 1.45rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        h2::before {
+            content: "";
+            flex: 0 0 auto;
+            width: 4px;
+            height: 1.35rem;
+            border-radius: 2px;
+            background: var(--red);
+        }
+
+        h3 {
+            margin-top: 1.2rem;
+            margin-bottom: 0.45rem;
+            color: var(--gold);
+            font-size: 0.92rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        p {
+            margin: 0.7rem 0;
+            color: var(--text-soft);
+        }
+
+        a {
+            color: var(--gold);
+            text-decoration-color: rgba(244, 197, 66, 0.45);
+            text-underline-offset: 0.18em;
+        }
+
+        a:hover,
+        a:focus-visible {
+            color: #ffe899;
+        }
+
+        article > section,
+        .metadata {
+            margin: 1.25rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018)),
+                var(--bg-card);
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.24);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-table);
+            font-size: 0.94rem;
+        }
+
+        caption {
+            caption-side: bottom;
+            padding-top: 0.55rem;
+            color: var(--text-muted);
+            font-size: 0.86rem;
+            text-align: left;
+        }
+
+        th,
+        td {
+            border-bottom: 1px solid var(--border);
+            padding: 0.7rem 0.75rem;
+            vertical-align: top;
+            text-align: left;
+        }
+
+        th {
+            background: rgba(230, 36, 41, 0.09);
+            color: var(--text);
+            font-family: var(--font-heading);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        td {
+            color: var(--text-soft);
+        }
+
+        tr:last-child td {
+            border-bottom: 0;
+        }
+
+        ul,
+        ol {
+            margin: 0.75rem 0;
+            padding-left: 1.35rem;
+            color: var(--text-soft);
+        }
+
+        li {
+            margin: 0.35rem 0;
+        }
+
+        pre {
+            overflow-x: auto;
+            margin: 1rem 0;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--red);
+            border-radius: var(--radius);
+            background: #0b0b0f;
+            color: var(--text);
+            font: 0.92rem/1.45 Consolas, "Courier New", monospace;
+        }
+
+        code {
+            color: #ffe899;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 0.95em;
+        }
+
+        .subtitle {
+            max-width: 720px;
+            margin: 0.85rem 0 0;
+            color: var(--text-soft);
+            font-size: 1rem;
+        }
+
+        .report-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.35rem;
+        }
+
+        .button {
+            display: inline-block;
+            min-width: 11rem;
+            padding: 0.68rem 1.35rem;
+            border: 1px solid transparent;
+            border-radius: var(--radius);
+            background: var(--red);
+            color: #fff;
+            font-family: var(--font-heading);
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-align: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition:
+                background var(--transition),
+                border-color var(--transition),
+                box-shadow var(--transition),
+                color var(--transition),
+                transform var(--transition);
+        }
+
+        .button:hover,
+        .button:focus-visible {
+            background: var(--red-dark);
+            box-shadow: 0 4px 20px var(--red-glow);
+            color: #fff;
+            outline: none;
+            transform: translateY(-1px);
+        }
+
+        .button--ghost {
+            background: transparent;
+            border-color: var(--border);
+            color: var(--text);
+        }
+
+        .button--ghost:hover,
+        .button--ghost:focus-visible {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: var(--gold);
+            box-shadow: none;
+            color: var(--gold);
+        }
+
+        .metadata {
+            font-size: 0.94rem;
+        }
+
+        .metadata dl {
+            display: grid;
+            grid-template-columns: minmax(140px, 220px) 1fr;
+            gap: 0.45rem 1rem;
+            margin: 0;
+        }
+
+        .metadata dt {
+            color: var(--text);
+            font-family: var(--font-heading);
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .metadata dd {
+            margin: 0;
+            color: var(--text-soft);
+        }
+
+        .note {
+            margin: 1rem 0;
+            padding: 0.85rem 1rem;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--gold);
+            border-radius: var(--radius);
+            background: rgba(244, 197, 66, 0.06);
+            color: var(--text-soft);
+        }
+
+        figure {
+            margin: 1.25rem 0;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018)),
+                #0d0d12;
+        }
+
+        figure img {
+            display: block;
+            max-width: 100%;
+            min-height: 180px;
+            height: auto;
+            margin: 0 auto;
+            border-radius: var(--radius);
+        }
+
+        figcaption {
+            margin-top: 0.75rem;
+            color: var(--text-muted);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        @media (max-width: 760px) {
+            article {
+                padding: 1.25rem 0.85rem 2rem;
+            }
+
+            header,
+            article > section,
+            .metadata {
+                padding: 1.15rem;
+                border-radius: 14px;
+            }
+
+            .metadata dl {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+
+        @media print {
+            :root {
+                color-scheme: light;
+            }
+
+            body {
+                background: #fff;
+                color: #111827;
+                font-size: 12pt;
+            }
+
+            article {
+                max-width: none;
+                padding: 0;
+            }
+
+            header,
+            article > section,
+            .metadata,
+            figure {
+                border-color: #d1d5db;
+                background: #fff;
+                box-shadow: none;
+            }
+
+            h1,
+            h2,
+            h3,
+            p,
+            li,
+            td,
+            .metadata dd {
+                color: #111827;
+            }
+
+            a {
+                color: inherit;
+            }
+        }
+    </style>
+</head>
+<body>
+<article>
+    <header>
+        <h1>Marvel Trivia Game Software Requirements Specification</h1>
+        <p class="subtitle">Final Scholarly HTML report structured after an IEEE SRS for the Marvel Trivia/Game web application.</p>
+        <nav class="report-actions" aria-label="Report actions">
+            <a class="button" href="index.php">Back to application</a>
+            <a class="button button--ghost" href="https://github.com/StefanU123/Marvel-Game">GitHub repository</a>
+        </nav>
+    </header>
+
+    <div class="metadata">
+        <dl>
+            <dt>Project</dt>
+            <dd>Marvel Trivia/Game</dd>
+            <dt>Document type</dt>
+            <dd>Scholarly HTML SRS-style report</dd>
+            <dt>Technology stack</dt>
+            <dd>Vanilla PHP, SQLite, HTML, CSS, and JavaScript</dd>
+            <dt>Status</dt>
+            <dd>Final academic project report</dd>
+            <dt>Course</dt>
+            <dd>Tehnologii Web</dd>
+            <dt>Institution</dt>
+            <dd>Universitatea „Alexandru Ioan Cuza” din Iași, Facultatea de Informatică</dd>
+            <dt>Group</dt>
+            <dd>2B3</dd>
+            <dt>Authors</dt>
+            <dd>Răileanu Fabian, Ungureanu Ștefan-Mario</dd>
+            <dt>Repository</dt>
+            <dd><a href="https://github.com/StefanU123/Marvel-Game">https://github.com/StefanU123/Marvel-Game</a></dd>
+            <dt>Deployment</dt>
+            <dd>Local only, available through <a href="http://localhost:8000/">http://localhost:8000</a></dd>
+            <dt>Report URL</dt>
+            <dd><a href="http://localhost:8000/report.html">http://localhost:8000/report.html</a></dd>
+            <dt>Code license</dt>
+            <dd>MIT License</dd>
+            <dt>Documentation license</dt>
+            <dd>Creative Commons BY 4.0</dd>
+        </dl>
+    </div>
+
+    <section id="introduction">
+        <h2>1. Introduction</h2>
+        <p>
+            Marvel Trivia/Game is a browser-based trivia application where players choose a Marvel hero,
+            select a difficulty level, answer timed questions, and compare results on a leaderboard. This
+            report describes the system requirements, architecture, data model, interfaces, and validation
+            strategy in a format inspired by IEEE Software Requirements Specification structure.
+        </p>
+        <p>
+            The application is implemented without front-end or back-end frameworks. It uses PHP pages for
+            server-rendered views, SQLite for persistence, and vanilla JavaScript with Fetch/Ajax calls for
+            quiz flow, score submission, leaderboard data, RSS integration, and browser notifications.
+        </p>
+    </section>
+
+    <section id="overall-description">
+        <h2>2. Overall Description</h2>
+        <p>
+            The system provides a small but complete trivia platform. Guests can browse heroes, switch
+            language between Romanian and English, register, log in, and play quizzes. Authenticated users
+            can save scores and appear in rankings. Administrators can maintain heroes and questions and
+            import or export data in CSV and JSON formats.
+        </p>
+        <table>
+            <caption>Product context and major assumptions.</caption>
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Runtime</td>
+                    <td>PHP built-in server or compatible PHP web server, with SQLite support enabled.</td>
+                </tr>
+                <tr>
+                    <td>Client</td>
+                    <td>Modern web browser with HTML, CSS, JavaScript, Fetch API, and optional Notifications API support.</td>
+                </tr>
+                <tr>
+                    <td>Persistence</td>
+                    <td>Local SQLite database seeded through the project setup scripts.</td>
+                </tr>
+                <tr>
+                    <td>Constraints</td>
+                    <td>No application frameworks; implementation relies on standard PHP, PDO, browser APIs, and static assets.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="user-classes">
+        <h2>3. User Classes</h2>
+        <h3>3.1 Guest</h3>
+        <p>
+            A guest can view the homepage, inspect available heroes, switch language, register, log in,
+            start a quiz, and view public leaderboard information. Guest quiz results are calculated, but
+            persistence is reserved for authenticated accounts.
+        </p>
+        <h3>3.2 Authenticated User</h3>
+        <p>
+            An authenticated user can play quizzes by hero and difficulty, submit answers for server-side
+            validation, save scores, view personal placement in the leaderboard, and log out.
+        </p>
+        <h3>3.3 Admin</h3>
+        <p>
+            An administrator has access to the admin panel, where questions can be added, edited, and
+            deleted; heroes can be edited; and question or hero data can be imported and exported using
+            CSV or JSON.
+        </p>
+    </section>
+
+    <section id="external-interfaces">
+        <h2>4. External Interface Requirements</h2>
+        <h3>4.1 User Interface</h3>
+        <p>
+            The user interface consists of PHP-rendered pages in the <code>public</code> directory. Main
+            pages include the homepage, quiz page, leaderboard, authentication pages, and admin screens.
+            The interface supports responsive layouts, bilingual labels, hero imagery, form controls,
+            score tables, and quiz interaction states.
+        </p>
+        <h3>4.2 Software Interfaces</h3>
+        <p>
+            The PHP application communicates with SQLite through PDO. Browser JavaScript communicates
+            with JSON and RSS endpoints under <code>public/api</code>. Data import/export supports JSON
+            and CSV representations for administrative maintenance.
+        </p>
+        <h3>4.3 Communications Interfaces</h3>
+        <p>
+            HTTP is used for page requests, form submissions, Fetch API requests, RSS feed retrieval, and
+            static asset delivery. Browser notifications depend on user permission and browser support.
+        </p>
+    </section>
+
+    <section id="system-features">
+        <h2>5. System Features</h2>
+        <table>
+            <caption>Functional requirements grouped by feature.</caption>
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Requirement</th>
+                    <th>Primary users</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Hero homepage</td>
+                    <td>Display hero cards with localized descriptions and links to start hero-specific quizzes.</td>
+                    <td>Guest, Authenticated User</td>
+                </tr>
+                <tr>
+                    <td>Language switch</td>
+                    <td>Allow Romanian and English interface text, preserving the current context where possible.</td>
+                    <td>All users</td>
+                </tr>
+                <tr>
+                    <td>Authentication</td>
+                    <td>Support registration, login, logout, session-backed identity, and role-aware navigation.</td>
+                    <td>Guest, Authenticated User, Admin</td>
+                </tr>
+                <tr>
+                    <td>Quiz play</td>
+                    <td>Load randomized questions by hero and difficulty, present answer options, track time, and submit answers.</td>
+                    <td>Guest, Authenticated User</td>
+                </tr>
+                <tr>
+                    <td>Server-side validation</td>
+                    <td>Grade submitted answers on the server using session-held correct answers rather than trusting the client.</td>
+                    <td>Guest, Authenticated User</td>
+                </tr>
+                <tr>
+                    <td>Score saving</td>
+                    <td>Persist score, difficulty, hero, answer count, and time for authenticated users.</td>
+                    <td>Authenticated User</td>
+                </tr>
+                <tr>
+                    <td>Leaderboard</td>
+                    <td>Aggregate scores by player, filter by hero and difficulty, show recent matches, and expose JSON/RSS data.</td>
+                    <td>All users</td>
+                </tr>
+                <tr>
+                    <td>Notifications</td>
+                    <td>Use browser notifications for leaderboard-related updates when permission is granted.</td>
+                    <td>All users</td>
+                </tr>
+                <tr>
+                    <td>Administration</td>
+                    <td>Allow admins to manage questions, edit heroes, and import/export data as CSV or JSON.</td>
+                    <td>Admin</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="nonfunctional-requirements">
+        <h2>6. Nonfunctional Requirements</h2>
+        <h3>6.1 Security</h3>
+        <ul>
+            <li>Database access shall use prepared statements through PDO to reduce SQL Injection risk.</li>
+            <li>Dynamic output shall be escaped with <code>htmlspecialchars</code> or XML-appropriate escaping where applicable.</li>
+            <li>Admin functionality shall be protected by an administrator role check.</li>
+            <li>Quiz scoring shall validate answers server-side and avoid exposing correct answers during play.</li>
+        </ul>
+        <h3>6.2 Reliability</h3>
+        <p>
+            The application should return structured JSON errors for API failures and valid RSS output for
+            feed consumers. Database setup scripts should be repeatable for local development.
+        </p>
+        <h3>6.3 Usability</h3>
+        <p>
+            The interface should be understandable for casual players, support both Romanian and English,
+            and provide clear quiz, score, and leaderboard feedback.
+        </p>
+        <h3>6.4 Maintainability</h3>
+        <p>
+            The codebase should remain framework-free and organized by pages, reusable includes, API
+            endpoints, database scripts, static assets, and admin modules.
+        </p>
+    </section>
+
+    <section id="architecture">
+        <h2>7. Architecture</h2>
+        <p>
+            The system follows a simple server-rendered PHP architecture. Pages render initial HTML, and
+            JavaScript uses Fetch to call API endpoints for dynamic quiz and leaderboard interactions.
+            SQLite stores users, heroes, questions, and scores. The following C4-style diagrams are intended
+            to be maintained as draw.io exports in the public assets directory.
+        </p>
+        <h3>7.1 C1 Context Diagram</h3>
+        <figure>
+            <img src="assets/diagrams/c1-context.svg" alt="C1 System Context diagram for Marvel Trivia Game">
+            <figcaption>C1 System Context diagram exported from draw.io.</figcaption>
+        </figure>
+        <h3>7.2 C2 Container Diagram</h3>
+        <figure>
+            <img src="assets/diagrams/c2-container.svg" alt="C2 Container diagram for Marvel Trivia Game">
+            <figcaption>C2 Container diagram exported from draw.io.</figcaption>
+        </figure>
+    </section>
+
+    <section id="data-model">
+        <h2>8. Data Model</h2>
+        <table>
+            <caption>Primary persistent entities.</caption>
+            <thead>
+                <tr>
+                    <th>Table</th>
+                    <th>Purpose</th>
+                    <th>Important fields</th>
+                    <th>Relationships</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>users</code></td>
+                    <td>Stores registered accounts and roles.</td>
+                    <td><code>id</code>, <code>username</code>, <code>email</code>, <code>password_hash</code>, <code>role</code>, <code>created_at</code></td>
+                    <td>Referenced by <code>scores.user_id</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>heroes</code></td>
+                    <td>Stores playable hero metadata and image paths.</td>
+                    <td><code>id</code>, <code>name</code>, <code>description</code>, <code>description_ro</code>, <code>image_url</code></td>
+                    <td>Referenced by <code>questions.hero_id</code> and <code>scores.hero_id</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>questions</code></td>
+                    <td>Stores quiz questions, localized text, options, correct answer, and difficulty.</td>
+                    <td><code>hero_id</code>, <code>question_text</code>, <code>option_a</code> to <code>option_d</code>, <code>correct_option</code>, <code>difficulty</code></td>
+                    <td>Belongs to a hero; deleted when the related hero is deleted.</td>
+                </tr>
+                <tr>
+                    <td><code>scores</code></td>
+                    <td>Stores completed quiz results for authenticated users.</td>
+                    <td><code>user_id</code>, <code>hero_id</code>, <code>difficulty</code>, <code>score</code>, <code>total_questions</code>, <code>correct_count</code>, <code>time_taken</code>, <code>played_at</code></td>
+                    <td>Belongs to a user and a hero; supports leaderboard aggregation.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="api-endpoints">
+        <h2>9. API Endpoints</h2>
+        <table>
+            <caption>Fetch/Ajax and feed endpoints exposed under <code>public/api</code>.</caption>
+            <thead>
+                <tr>
+                    <th>Endpoint</th>
+                    <th>Method</th>
+                    <th>Inputs</th>
+                    <th>Output</th>
+                    <th>Responsibility</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>/api/question.php</code></td>
+                    <td>GET</td>
+                    <td><code>hero_id</code>, <code>difficulty</code></td>
+                    <td>JSON quiz payload without correct answers.</td>
+                    <td>Loads randomized questions, localizes content, shuffles options, and stores correct answers in session.</td>
+                </tr>
+                <tr>
+                    <td><code>/api/submit.php</code></td>
+                    <td>POST</td>
+                    <td>JSON body with <code>answers</code> and <code>time_taken</code>.</td>
+                    <td>JSON score, correctness breakdown, save status, and result metadata.</td>
+                    <td>Validates answers server-side, calculates score and bonuses, and saves authenticated results.</td>
+                </tr>
+                <tr>
+                    <td><code>/api/leaderboard.php</code></td>
+                    <td>GET</td>
+                    <td>Optional <code>hero_id</code>, <code>difficulty</code>, <code>limit</code>.</td>
+                    <td>JSON leaderboard rows.</td>
+                    <td>Aggregates player scores and supports filtered leaderboard views.</td>
+                </tr>
+                <tr>
+                    <td><code>/api/rss.php</code></td>
+                    <td>GET</td>
+                    <td>Optional <code>hero_id</code>, <code>difficulty</code>, <code>limit</code>.</td>
+                    <td>RSS 2.0 XML feed.</td>
+                    <td>Publishes leaderboard ranking as a feed for external readers.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="development-stages">
+        <h2>10. Development Stages</h2>
+        <ol>
+            <li>Define project scope, user roles, core trivia flow, and database schema.</li>
+            <li>Implement public pages, shared includes, styling, and hero browsing.</li>
+            <li>Add authentication, role-based navigation, and session handling.</li>
+            <li>Build quiz APIs for question loading and server-side answer submission.</li>
+            <li>Add score persistence, leaderboard aggregation, recent matches, and RSS feed output.</li>
+            <li>Implement bilingual Romanian/English text and translation seeding.</li>
+            <li>Build admin CRUD workflows and CSV/JSON import/export tools.</li>
+            <li>Validate HTML, PHP syntax, API behavior, database setup scripts, and browser interactions.</li>
+        </ol>
+    </section>
+
+    <section id="testing-and-validation">
+        <h2>11. Testing and Validation</h2>
+        <p>
+            Testing should combine manual browser scenarios, PHP syntax checks, database setup verification,
+            API response checks, and W3C HTML validation. Key validation scenarios include:
+        </p>
+        <ul>
+            <li>Fresh setup creates all required tables and seed data.</li>
+            <li>Homepage hero images load and localized text switches between Romanian and English.</li>
+            <li>Registration, login, logout, and admin authorization behave as expected.</li>
+            <li>Quiz questions load by hero and difficulty, answer order is shuffled, and correct answers are not exposed.</li>
+            <li>Quiz submission returns a score and saves it only for authenticated users.</li>
+            <li>Leaderboard filters, recent matches, RSS feed, and notification permission flow work in supported browsers.</li>
+            <li>Admin question CRUD and hero editing preserve data integrity.</li>
+            <li>CSV/JSON import/export handles valid input and rejects malformed or incomplete data.</li>
+        </ul>
+        <p class="note">
+            Suggested command-line checks include <code>php -l</code> on edited PHP files and manual calls to
+            each API endpoint after running the setup scripts.
+        </p>
+    </section>
+
+    <section id="licensing">
+        <h2>12. Licensing</h2>
+        <p>
+            Source code is distributed under the MIT License. The report and documentation are distributed
+            under Creative Commons BY 4.0. Marvel-related names and images belong to their respective
+            owners and are used only for educational purposes.
+        </p>
+    </section>
+
+    <section id="appendix">
+        <h2>13. Appendix: Setup Commands and Demo Script</h2>
+        <p>
+            A fresh local installation can be prepared with the following commands from the project root:
+        </p>
+        <pre><code>php database/setup.php
+php database/seed_translations.php
+php database/seed_demo.php
+php -S localhost:8000 -t public</code></pre>
+        <p>
+            The script <code>database/seed_demo.php</code> is optional. It inserts demo leaderboard data so
+            rankings and the RSS feed can be tested without manually playing many quiz sessions.
+        </p>
+        <p>
+            The required demonstrative video is separate from this script: it is a 3-5 minute video
+            presentation prepared by the team to show the application features and implementation.
+        </p>
+    </section>
+
+    <section id="references">
+        <h2>References</h2>
+        <ol>
+            <li>W3C Community Group, <cite>Scholarly HTML</cite>. <a href="https://w3c.github.io/scholarly-html/">https://w3c.github.io/scholarly-html/</a></li>
+            <li>Rick Hightower, <cite>IEEE SRS Template</cite>. <a href="https://github.com/rick4470/IEEE-SRS-Tempate#readme">https://github.com/rick4470/IEEE-SRS-Tempate#readme</a></li>
+            <li>MDN Web Docs, <cite>Fetch API</cite>. <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API">https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API</a></li>
+            <li>MDN Web Docs, <cite>Notifications API</cite>. <a href="https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API">https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API</a></li>
+            <li>OWASP Cheat Sheet Series, <cite>SQL Injection Prevention Cheat Sheet</cite>. <a href="https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html">https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html</a></li>
+            <li>OWASP Foundation, <cite>Cross Site Scripting (XSS)</cite>. <a href="https://owasp.org/www-community/attacks/xss/">https://owasp.org/www-community/attacks/xss/</a></li>
+            <li>JSON.org, <cite>Introducing JSON</cite>. <a href="https://www.json.org/json-en.html">https://www.json.org/json-en.html</a></li>
+            <li>RFC Editor, <cite>RFC 4180: Common Format and MIME Type for CSV Files</cite>. <a href="https://www.rfc-editor.org/rfc/rfc4180">https://www.rfc-editor.org/rfc/rfc4180</a></li>
+        </ol>
+    </section>
+</article>
+</body>
+</html>

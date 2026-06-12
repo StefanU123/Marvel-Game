@@ -138,6 +138,10 @@ try {
                 </section>
             </aside>
         </div>
+
+        <div class="home-report-link">
+            <a class="button button--ghost" href="report.html">Project report</a>
+        </div>
     </main>
 
     <script>
