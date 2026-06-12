@@ -1,6 +1,7 @@
 <?php
 require_once '../../includes/auth.php';
 require_once '../../includes/db.php';
+require_once '../../includes/i18n.php';
 
 requireAdmin();
 
@@ -59,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo lang(); ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,34 +68,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-    <main>
-        <h1>Edit Hero</h1>
+    <header class="site-header">
+        <a class="header-left" href="index.php">
+            <span class="brand-marvel">Marvel</span>
+            <span class="brand-trivia">Trivia</span>
+        </a>
+        <nav class="header-right">
+            <a class="lang-toggle" href="<?php echo htmlspecialchars(langSwitchUrl(otherLang())); ?>"><?php echo t('lang.switch'); ?></a>
+            <span class="admin-tag"><?php echo t('admin.tag'); ?></span>
+            <span class="nav-divider"></span>
+            <a class="nav-link" href="../index.php"><?php echo t('nav.viewSite'); ?></a>
+            <a class="nav-btn nav-btn--outline" href="../logout.php"><?php echo t('nav.logout'); ?></a>
+        </nav>
+    </header>
 
-        <p><a href="heroes.php">Back to Heroes</a></p>
+    <main class="admin-page">
+        <div class="admin-head">
+            <div>
+                <a class="admin-back" href="heroes.php"><?php echo t('admin.backToHeroes'); ?></a>
+                <h1 class="admin-title"><?php echo t('admin.editHeroTitle'); ?></h1>
+                <p class="admin-subtitle"><?php echo htmlspecialchars($name); ?></p>
+            </div>
+        </div>
 
         <?php if ($error !== ''): ?>
-            <p><?php echo htmlspecialchars($error); ?></p>
+            <div class="admin-error"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
 
-        <form method="post" action="edit_hero.php?id=<?php echo htmlspecialchars($id); ?>">
-            <p>
-                <label for="name">Name</label><br>
+        <form class="admin-form" method="post" action="edit_hero.php?id=<?php echo htmlspecialchars($id); ?>">
+            <div class="admin-field">
+                <label for="name"><?php echo t('admin.fieldName'); ?></label>
                 <input type="text" name="name" id="name" value="<?php echo htmlspecialchars($name); ?>">
-            </p>
+            </div>
 
-            <p>
-                <label for="description">Description</label><br>
+            <div class="admin-field">
+                <label for="description"><?php echo t('admin.fieldDescription'); ?></label>
                 <textarea name="description" id="description"><?php echo htmlspecialchars($description); ?></textarea>
-            </p>
+            </div>
 
-            <p>
-                <label for="image_url">Image URL</label><br>
+            <div class="admin-field">
+                <label for="image_url"><?php echo t('admin.fieldImageUrl'); ?></label>
                 <input type="text" name="image_url" id="image_url" value="<?php echo htmlspecialchars($imageUrl); ?>">
-            </p>
+                <span class="admin-note"><?php echo t('admin.imageUrlNote'); ?> <code>assets/images/thor.svg</code></span>
+            </div>
 
-            <p>
-                <button type="submit">Save Hero</button>
-            </p>
+            <div class="admin-form-actions">
+                <button class="button" type="submit"><?php echo t('admin.saveHero'); ?></button>
+                <a class="button button--ghost" href="heroes.php"><?php echo t('admin.cancel'); ?></a>
+            </div>
         </form>
     </main>
 </body>

@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/i18n.php';
 
 startSessionIfNeeded();
 
@@ -12,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
 
     if ($usernameOrEmail === '' || $password === '') {
-        $errorMessage = 'Please fill in all fields.';
+        $errorMessage = t('auth.fillFields');
     } else {
         try {
             $pdo = getDatabaseConnection();
@@ -40,15 +41,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
             }
 
-            $errorMessage = 'Invalid username, email or password.';
+            $errorMessage = t('auth.invalidLogin');
         } catch (Throwable $error) {
-            $errorMessage = 'Could not log in. Please try again.';
+            $errorMessage = t('auth.loginError');
         }
     }
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo lang(); ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,12 +58,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <header class="site-header">
-        <a class="header-left" href="index.php" style="text-decoration:none">
-            <h1>Marvel Trivia</h1>
-            <span class="header-tagline">Test Your Universe</span>
+        <a class="header-left" href="index.php">
+            <span class="brand-marvel">Marvel</span>
+            <span class="brand-trivia">Trivia</span>
         </a>
         <nav class="header-right">
-            <a class="nav-link back-link" href="index.php">← Back</a>
+            <a class="lang-toggle" href="<?php echo htmlspecialchars(langSwitchUrl(otherLang())); ?>"><?php echo t('lang.switch'); ?></a>
+            <a class="nav-link back-link" href="index.php"><?php echo t('nav.back'); ?></a>
         </nav>
     </header>
 
@@ -70,10 +72,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="auth-card">
             <div class="auth-logo">
                 <h2>Marvel Trivia</h2>
-                <p>Sign in to track your scores</p>
+                <p><?php echo t('auth.signInToTrack'); ?></p>
             </div>
 
-            <h3 class="auth-title">Welcome Back</h3>
+            <h3 class="auth-title"><?php echo t('auth.welcomeBack'); ?></h3>
 
             <?php if ($errorMessage !== ''): ?>
                 <div class="auth-error"><?php echo htmlspecialchars($errorMessage); ?></div>
@@ -81,35 +83,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <form method="post" action="login.php">
                 <div class="auth-field">
-                    <label for="username_or_email">Username or Email</label>
+                    <label for="username_or_email"><?php echo t('auth.usernameOrEmail'); ?></label>
                     <input
                         type="text"
                         id="username_or_email"
                         name="username_or_email"
-                        placeholder="Enter your username or email"
+                        placeholder="<?php echo t('auth.phUsernameEmail'); ?>"
                         value="<?php echo htmlspecialchars($_POST['username_or_email'] ?? ''); ?>"
                         autocomplete="username"
                     >
                 </div>
 
                 <div class="auth-field">
-                    <label for="password">Password</label>
+                    <label for="password"><?php echo t('auth.password'); ?></label>
                     <input
                         type="password"
                         id="password"
                         name="password"
-                        placeholder="Enter your password"
+                        placeholder="<?php echo t('auth.phPassword'); ?>"
                         autocomplete="current-password"
                     >
                 </div>
 
-                <button class="button auth-submit" type="submit">Sign In</button>
+                <button class="button auth-submit" type="submit"><?php echo t('auth.signIn'); ?></button>
             </form>
 
-            <div class="auth-divider">or</div>
+            <div class="auth-divider"><?php echo t('auth.or'); ?></div>
 
             <p class="auth-footer">
-                Don't have an account? <a href="register.php">Create one</a>
+                <?php echo t('auth.noAccount'); ?> <a href="register.php"><?php echo t('auth.createOne'); ?></a>
             </p>
         </div>
     </main>

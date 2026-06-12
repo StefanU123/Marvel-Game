@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/i18n.php';
 
 $errorMessage = '';
 
@@ -10,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
 
     if ($username === '' || $email === '' || $password === '') {
-        $errorMessage = 'Please fill in all fields.';
+        $errorMessage = t('auth.fillFields');
     } else {
         try {
             $pdo = getDatabaseConnection();
@@ -22,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
 
             if ($checkStatement->fetch()) {
-                $errorMessage = 'Username or email already exists.';
+                $errorMessage = t('reg.exists');
             } else {
                 $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
@@ -41,13 +42,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
             }
         } catch (Throwable $error) {
-            $errorMessage = 'Could not create account. Please try again.';
+            $errorMessage = t('reg.createError');
         }
     }
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo lang(); ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,12 +57,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <header class="site-header">
-        <a class="header-left" href="index.php" style="text-decoration:none">
-            <h1>Marvel Trivia</h1>
-            <span class="header-tagline">Test Your Universe</span>
+        <a class="header-left" href="index.php">
+            <span class="brand-marvel">Marvel</span>
+            <span class="brand-trivia">Trivia</span>
         </a>
         <nav class="header-right">
-            <a class="nav-link back-link" href="index.php">← Back</a>
+            <a class="lang-toggle" href="<?php echo htmlspecialchars(langSwitchUrl(otherLang())); ?>"><?php echo t('lang.switch'); ?></a>
+            <a class="nav-link back-link" href="index.php"><?php echo t('nav.back'); ?></a>
         </nav>
     </header>
 
@@ -69,10 +71,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="auth-card">
             <div class="auth-logo">
                 <h2>Marvel Trivia</h2>
-                <p>Join and compete on the leaderboard</p>
+                <p><?php echo t('reg.joinCompete'); ?></p>
             </div>
 
-            <h3 class="auth-title">Create Account</h3>
+            <h3 class="auth-title"><?php echo t('reg.createAccount'); ?></h3>
 
             <?php if ($errorMessage !== ''): ?>
                 <div class="auth-error"><?php echo htmlspecialchars($errorMessage); ?></div>
@@ -80,47 +82,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <form method="post" action="register.php">
                 <div class="auth-field">
-                    <label for="username">Username</label>
+                    <label for="username"><?php echo t('reg.username'); ?></label>
                     <input
                         type="text"
                         id="username"
                         name="username"
-                        placeholder="Choose a username"
+                        placeholder="<?php echo t('reg.phUsername'); ?>"
                         value="<?php echo htmlspecialchars($_POST['username'] ?? ''); ?>"
                         autocomplete="username"
                     >
                 </div>
 
                 <div class="auth-field">
-                    <label for="email">Email</label>
+                    <label for="email"><?php echo t('reg.email'); ?></label>
                     <input
                         type="email"
                         id="email"
                         name="email"
-                        placeholder="your@email.com"
+                        placeholder="<?php echo t('reg.phEmail'); ?>"
                         value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>"
                         autocomplete="email"
                     >
                 </div>
 
                 <div class="auth-field">
-                    <label for="password">Password</label>
+                    <label for="password"><?php echo t('reg.password'); ?></label>
                     <input
                         type="password"
                         id="password"
                         name="password"
-                        placeholder="Create a password"
+                        placeholder="<?php echo t('reg.phPassword'); ?>"
                         autocomplete="new-password"
                     >
                 </div>
 
-                <button class="button auth-submit" type="submit">Create Account</button>
+                <button class="button auth-submit" type="submit"><?php echo t('reg.createAccount'); ?></button>
             </form>
 
-            <div class="auth-divider">or</div>
+            <div class="auth-divider"><?php echo t('auth.or'); ?></div>
 
             <p class="auth-footer">
-                Already have an account? <a href="login.php">Sign in</a>
+                <?php echo t('reg.haveAccount'); ?> <a href="login.php"><?php echo t('reg.signIn'); ?></a>
             </p>
         </div>
     </main>

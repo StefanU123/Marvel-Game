@@ -39,7 +39,7 @@ if (!isset($_SESSION['active_quiz'])) {
 $quiz       = $_SESSION['active_quiz'];
 $heroId     = (int) $quiz['hero_id'];
 $difficulty = (string) $quiz['difficulty'];
-$questionIds = $quiz['question_ids'];
+$sessionQuestions = $quiz['questions'] ?? [];
 
 $pointsByDifficulty = [
     'easy'   => 10,
@@ -51,33 +51,18 @@ $basePoints = $pointsByDifficulty[$difficulty] ?? 10;
 try {
     $pdo = getDatabaseConnection();
 
-    $placeholders = implode(',', array_fill(0, count($questionIds), '?'));
-    $stmt = $pdo->prepare(
-        "SELECT id, question_text, option_a, option_b, option_c, option_d, correct_option
-         FROM questions
-         WHERE id IN ($placeholders)"
-    );
-    $stmt->execute($questionIds);
-    $rows = $stmt->fetchAll();
-
-    $byId = [];
-    foreach ($rows as $row) {
-        $byId[(int) $row['id']] = $row;
-    }
-
+    // Grade against the shuffled options stored in the session at serve time —
+    // the client never received the correct letter, so it cannot be forged.
     $results = [];
     $correctCount = 0;
 
-    foreach ($questionIds as $qid) {
-        if (!isset($byId[$qid])) {
-            continue;
-        }
-        $question = $byId[$qid];
-        $selected = isset($answers[$qid]) ? strtoupper(trim((string) $answers[$qid])) : null;
+    foreach ($sessionQuestions as $qid => $question) {
+        $selectedRaw = $answers[(string) $qid] ?? ($answers[$qid] ?? null);
+        $selected = $selectedRaw !== null ? strtoupper(trim((string) $selectedRaw)) : null;
         if (!in_array($selected, ['A', 'B', 'C', 'D'], true)) {
             $selected = null;
         }
-        $isCorrect = $selected !== null && $selected === $question['correct_option'];
+        $isCorrect = $selected !== null && $selected === $question['correct'];
         if ($isCorrect) {
             $correctCount++;
         }
@@ -85,19 +70,17 @@ try {
         $results[] = [
             'question_id'    => (int) $qid,
             'question_text'  => $question['question_text'],
-            'options'        => [
-                'A' => $question['option_a'],
-                'B' => $question['option_b'],
-                'C' => $question['option_c'],
-                'D' => $question['option_d'],
-            ],
-            'correct_option' => $question['correct_option'],
+            'options'        => $question['options'],
+            'correct_option' => $question['correct'],
             'selected'       => $selected,
             'is_correct'     => $isCorrect,
         ];
     }
 
-    $total = count($questionIds);
+    $total = count($sessionQuestions);
+    if ($total === 0) {
+        sendJson(['error' => 'No active quiz. Start a new one first.'], 400);
+    }
     $score = $correctCount * $basePoints;
 
     // Time bonus: up to 25% extra if completed quickly

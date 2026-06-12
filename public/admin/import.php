@@ -1,6 +1,7 @@
 <?php
 require_once '../../includes/auth.php';
 require_once '../../includes/db.php';
+require_once '../../includes/i18n.php';
 
 requireAdmin();
 
@@ -213,7 +214,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo lang(); ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -221,44 +222,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-    <main>
-        <h1>Import Data</h1>
+    <header class="site-header">
+        <a class="header-left" href="index.php">
+            <span class="brand-marvel">Marvel</span>
+            <span class="brand-trivia">Trivia</span>
+        </a>
+        <nav class="header-right">
+            <a class="lang-toggle" href="<?php echo htmlspecialchars(langSwitchUrl(otherLang())); ?>"><?php echo t('lang.switch'); ?></a>
+            <span class="admin-tag"><?php echo t('admin.tag'); ?></span>
+            <span class="nav-divider"></span>
+            <a class="nav-link" href="../index.php"><?php echo t('nav.viewSite'); ?></a>
+            <a class="nav-btn nav-btn--outline" href="../logout.php"><?php echo t('nav.logout'); ?></a>
+        </nav>
+    </header>
 
-        <p><a href="index.php">Back to Admin Panel</a></p>
+    <main class="admin-page">
+        <div class="admin-head">
+            <div>
+                <a class="admin-back" href="index.php"><?php echo t('admin.backToAdmin'); ?></a>
+                <h1 class="admin-title"><?php echo t('admin.importTitle'); ?></h1>
+                <p class="admin-subtitle"><?php echo t('admin.importSubtitle'); ?></p>
+            </div>
+        </div>
 
         <?php if ($error !== ''): ?>
-            <p><?php echo htmlspecialchars($error); ?></p>
+            <div class="admin-error"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
 
         <?php if ($success !== ''): ?>
-            <p><?php echo htmlspecialchars($success); ?></p>
+            <div class="admin-success"><?php echo htmlspecialchars($success); ?></div>
         <?php endif; ?>
 
-        <form method="post" action="import.php" enctype="multipart/form-data">
-            <p>
-                <label for="type">Type</label><br>
-                <select name="type" id="type">
-                    <option value="questions" <?php if ($type === 'questions') echo 'selected'; ?>>questions</option>
-                    <option value="heroes" <?php if ($type === 'heroes') echo 'selected'; ?>>heroes</option>
-                </select>
-            </p>
+        <form class="admin-form" method="post" action="import.php" enctype="multipart/form-data">
+            <div class="admin-field-row">
+                <div class="admin-field">
+                    <label for="type"><?php echo t('admin.type'); ?></label>
+                    <select name="type" id="type">
+                        <option value="questions" <?php if ($type === 'questions') echo 'selected'; ?>><?php echo t('admin.manageQuestions'); ?></option>
+                        <option value="heroes" <?php if ($type === 'heroes') echo 'selected'; ?>><?php echo t('admin.manageHeroes'); ?></option>
+                    </select>
+                </div>
 
-            <p>
-                <label for="format">Format</label><br>
-                <select name="format" id="format">
-                    <option value="csv" <?php if ($format === 'csv') echo 'selected'; ?>>csv</option>
-                    <option value="json" <?php if ($format === 'json') echo 'selected'; ?>>json</option>
-                </select>
-            </p>
+                <div class="admin-field">
+                    <label for="format"><?php echo t('admin.format'); ?></label>
+                    <select name="format" id="format">
+                        <option value="csv" <?php if ($format === 'csv') echo 'selected'; ?>>CSV</option>
+                        <option value="json" <?php if ($format === 'json') echo 'selected'; ?>>JSON</option>
+                    </select>
+                </div>
+            </div>
 
-            <p>
-                <label for="import_file">Import file</label><br>
+            <div class="admin-field">
+                <label for="import_file"><?php echo t('admin.importFile'); ?></label>
                 <input type="file" name="import_file" id="import_file">
-            </p>
+                <span class="admin-note"><?php echo t('admin.importNote'); ?></span>
+            </div>
 
-            <p>
-                <button type="submit">Import Data</button>
-            </p>
+            <div class="admin-form-actions">
+                <button class="button" type="submit"><?php echo t('admin.importData'); ?></button>
+                <a class="button button--ghost" href="index.php"><?php echo t('admin.cancel'); ?></a>
+            </div>
         </form>
     </main>
 </body>

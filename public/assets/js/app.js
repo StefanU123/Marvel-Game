@@ -13,6 +13,17 @@
     const heroName     = setupStage.dataset.heroName;
     const isLoggedIn   = !!window.__QUIZ_USER_LOGGED_IN__;
 
+    // Localised strings injected by the page; t() looks up a key and applies
+    // sprintf-style %s substitution. Falls back to the key when absent.
+    const STRINGS = window.__I18N__ || {};
+    function t(key) {
+        let str = STRINGS[key] != null ? STRINGS[key] : key;
+        const args = Array.prototype.slice.call(arguments, 1);
+        // Use a function replacement so values containing "$" are inserted literally.
+        args.forEach((a) => { str = str.replace('%s', () => String(a)); });
+        return str;
+    }
+
     // Setup elements
     const difficultyCards = document.querySelectorAll('.difficulty-card');
     const startBtn        = document.getElementById('start-quiz');
@@ -78,7 +89,7 @@
         card.setAttribute('aria-checked', 'true');
         selectedDifficulty = card.dataset.difficulty;
         startBtn.disabled = false;
-        setupHint.textContent = 'Ready! Click Start Quiz to begin.';
+        setupHint.textContent = t('js.ready');
         setupHint.classList.remove('setup-hint--error');
     }
 
@@ -86,13 +97,13 @@
 
     async function startQuiz() {
         if (!selectedDifficulty) {
-            setupHint.textContent = 'Please select a difficulty first.';
+            setupHint.textContent = t('js.pickDifficulty');
             setupHint.classList.add('setup-hint--error');
             return;
         }
 
         startBtn.disabled = true;
-        startBtn.textContent = 'Loading…';
+        startBtn.textContent = t('js.loading');
 
         try {
             const url = `api/question.php?hero_id=${encodeURIComponent(heroId)}&difficulty=${encodeURIComponent(selectedDifficulty)}`;
@@ -100,7 +111,7 @@
             const data = await resp.json();
 
             if (!resp.ok || data.error) {
-                throw new Error(data.error || 'Could not load quiz.');
+                throw new Error(data.error || t('js.couldNotLoad'));
             }
 
             questions = data.questions;
@@ -109,7 +120,7 @@
             livesRemaining = MAX_LIVES;
             quizStartedAt = Date.now();
 
-            hudReward.textContent = (POINTS_BY_DIFFICULTY[selectedDifficulty] || 0) + ' pts';
+            hudReward.textContent = (POINTS_BY_DIFFICULTY[selectedDifficulty] || 0) + ' ' + t('js.pts');
 
             setupStage.hidden = true;
             playStage.hidden = false;
@@ -117,10 +128,10 @@
             updateHud();
             renderQuestion();
         } catch (err) {
-            setupHint.textContent = err.message || 'Could not load quiz.';
+            setupHint.textContent = err.message || t('js.couldNotLoad');
             setupHint.classList.add('setup-hint--error');
             startBtn.disabled = false;
-            startBtn.textContent = 'Start Quiz';
+            startBtn.textContent = t('js.startQuiz');
         }
     }
 
@@ -225,12 +236,12 @@
         if (letter === null) {
             feedbackBox.hidden = false;
             feedbackBox.classList.add('question-feedback--miss');
-            feedbackBox.textContent = '⏱ Time! Locked in no answer.';
+            feedbackBox.textContent = t('js.timeUp');
             loseLife();
         } else {
             feedbackBox.hidden = false;
             feedbackBox.classList.add('question-feedback--locked');
-            feedbackBox.textContent = `Locked in: ${letter}. Tap Next to continue.`;
+            feedbackBox.textContent = t('js.lockedIn', letter);
         }
 
         nextBtn.hidden = false;
@@ -272,7 +283,7 @@
     async function submitQuiz() {
         clearTimer();
         nextBtn.disabled = true;
-        nextBtn.textContent = 'Scoring…';
+        nextBtn.textContent = t('js.scoring');
 
         const timeTaken = Math.round((Date.now() - quizStartedAt) / 1000);
 
@@ -286,16 +297,16 @@
             const data = await resp.json();
 
             if (!resp.ok || data.error) {
-                throw new Error(data.error || 'Could not submit quiz.');
+                throw new Error(data.error || t('js.couldNotLoad'));
             }
 
             showResults(data);
         } catch (err) {
             feedbackBox.hidden = false;
             feedbackBox.classList.add('question-feedback--miss');
-            feedbackBox.textContent = 'Could not save your results: ' + (err.message || 'Network error.');
+            feedbackBox.textContent = t('js.saveError') + (err.message || 'Network error.');
             nextBtn.disabled = false;
-            nextBtn.textContent = 'Retry Submit';
+            nextBtn.textContent = t('js.retrySubmit');
         }
     }
 
@@ -324,31 +335,31 @@
 
         // Eyebrow / title flavor based on performance
         if (data.perfect) {
-            resultsEyebrow.textContent = '🏆 Perfect Run';
-            resultsTitle.textContent = `${heroName} salutes you.`;
+            resultsEyebrow.textContent = t('js.perfectRun');
+            resultsTitle.textContent = t('js.perfectTitle', heroName);
         } else if (accuracy >= 80) {
-            resultsEyebrow.textContent = '⭐ Outstanding';
-            resultsTitle.textContent = `A true expert on ${heroName}.`;
+            resultsEyebrow.textContent = t('js.outstanding');
+            resultsTitle.textContent = t('js.expertTitle', heroName);
         } else if (accuracy >= 50) {
-            resultsEyebrow.textContent = '👍 Solid Effort';
-            resultsTitle.textContent = `You know your ${heroName} lore.`;
+            resultsEyebrow.textContent = t('js.solidEffort');
+            resultsTitle.textContent = t('js.solidTitle', heroName);
         } else {
-            resultsEyebrow.textContent = '📖 Keep Studying';
-            resultsTitle.textContent = `Try another round on ${heroName}.`;
+            resultsEyebrow.textContent = t('js.keepStudying');
+            resultsTitle.textContent = t('js.studyTitle', heroName);
         }
 
         if (data.saved) {
-            resultsSaved.textContent = '✓ Score saved to the leaderboard.';
+            resultsSaved.textContent = t('js.saved');
             resultsSaved.className = 'results-saved results-saved--ok';
         } else if (!isLoggedIn) {
-            resultsSaved.innerHTML = 'Score not saved — <a href="login.php">log in</a> to track your stats.';
+            resultsSaved.innerHTML = t('js.notSavedGuest');
             resultsSaved.className = 'results-saved results-saved--warn';
         } else {
             resultsSaved.textContent = '';
         }
 
         // Breakdown
-        resultsBreakdown.innerHTML = '<h3 class="breakdown-title">Review</h3>';
+        resultsBreakdown.innerHTML = '<h3 class="breakdown-title">' + escapeHtml(t('js.review')) + '</h3>';
         const list = document.createElement('ol');
         list.className = 'breakdown-list';
         data.results.forEach((r, i) => {
@@ -371,11 +382,16 @@
             meta.className = 'breakdown-meta';
 
             if (r.selected === null) {
-                meta.innerHTML = `<span class="breakdown-yours">No answer</span> &middot; <span class="breakdown-correct">Correct: ${r.correct_option}. ${escapeHtml(correctText)}</span>`;
+                meta.innerHTML =
+                    '<span class="breakdown-yours">' + escapeHtml(t('js.noAnswer')) + '</span> &middot; ' +
+                    '<span class="breakdown-correct">' + escapeHtml(t('js.correctIs', r.correct_option, correctText)) + '</span>';
             } else if (r.is_correct) {
-                meta.innerHTML = `<span class="breakdown-correct">You chose ${r.selected}. ${escapeHtml(r.options[r.selected])}</span>`;
+                meta.innerHTML =
+                    '<span class="breakdown-correct">' + escapeHtml(t('js.youChose', r.selected, r.options[r.selected])) + '</span>';
             } else {
-                meta.innerHTML = `<span class="breakdown-yours">Your answer: ${r.selected}. ${escapeHtml(r.options[r.selected])}</span> &middot; <span class="breakdown-correct">Correct: ${r.correct_option}. ${escapeHtml(correctText)}</span>`;
+                meta.innerHTML =
+                    '<span class="breakdown-yours">' + escapeHtml(t('js.yourAnswer', r.selected, r.options[r.selected])) + '</span> &middot; ' +
+                    '<span class="breakdown-correct">' + escapeHtml(t('js.correctIs', r.correct_option, correctText)) + '</span>';
             }
 
             body.appendChild(q);
@@ -399,8 +415,8 @@
             c.setAttribute('aria-checked', 'false');
         });
         startBtn.disabled = true;
-        startBtn.textContent = 'Start Quiz';
-        setupHint.textContent = 'Select a difficulty to begin.';
+        startBtn.textContent = t('js.startQuiz');
+        setupHint.textContent = t('js.selectToBegin');
         setupHint.classList.remove('setup-hint--error');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });

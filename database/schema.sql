@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS heroes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL UNIQUE,
     description TEXT NOT NULL,
+    description_ro TEXT,
     image_url TEXT NOT NULL
 );
 
@@ -24,6 +25,11 @@ CREATE TABLE IF NOT EXISTS questions (
     option_b TEXT NOT NULL,
     option_c TEXT NOT NULL,
     option_d TEXT NOT NULL,
+    question_text_ro TEXT,
+    option_a_ro TEXT,
+    option_b_ro TEXT,
+    option_c_ro TEXT,
+    option_d_ro TEXT,
     correct_option TEXT NOT NULL CHECK (correct_option IN ('A', 'B', 'C', 'D')),
     difficulty TEXT NOT NULL CHECK (difficulty IN ('easy', 'medium', 'hard')),
     FOREIGN KEY (hero_id) REFERENCES heroes(id) ON DELETE CASCADE
@@ -54,7 +60,12 @@ INSERT INTO heroes (name, description, image_url) VALUES
 ('Iron Man', 'Tony Stark is a genius inventor who fights in a high-tech armored suit.', 'assets/images/iron-Man.jpg'),
 ('Spider-Man', 'Peter Parker is a young hero with spider-like powers and a strong sense of responsibility.', 'assets/images/spider-man.jpg'),
 ('Captain America', 'Steve Rogers is a super soldier known for his shield, courage, and leadership.', 'assets/images/captain-america.jpg'),
-('Black Panther', 'T''Challa is the king of Wakanda and protector of his people as the Black Panther.', 'assets/images/black-panther.jpg');
+('Black Panther', 'T''Challa is the king of Wakanda and protector of his people as the Black Panther.', 'assets/images/black-panther.jpg'),
+('Thor', 'The Asgardian god of thunder wields the enchanted hammer Mjolnir to protect the Nine Realms.', 'assets/images/thor.svg'),
+('Hulk', 'Bruce Banner transforms into the unstoppable green Hulk whenever his rage takes over.', 'assets/images/hulk.svg'),
+('Doctor Strange', 'Stephen Strange is a former surgeon turned Sorcerer Supreme, master of the mystic arts.', 'assets/images/doctor-strange.svg'),
+('Scarlet Witch', 'Wanda Maximoff wields chaos magic powerful enough to reshape reality itself.', 'assets/images/scarlet-witch.svg'),
+('Wolverine', 'Logan is a fierce, regenerating mutant with an adamantium skeleton and retractable claws.', 'assets/images/wolverine.svg');
 
 -- ============================================================
 -- IRON MAN (hero_id = 1)
@@ -143,3 +154,113 @@ INSERT INTO questions (hero_id, question_text, option_a, option_b, option_c, opt
 (4, 'Who created Black Panther?', 'Stan Lee and Jack Kirby', 'Stan Lee and Steve Ditko', 'Christopher Priest alone', 'Reginald Hudlin alone', 'A', 'hard'),
 (4, 'In what comic did Black Panther first appear?', 'Black Panther #1', 'Fantastic Four #52', 'Avengers #1', 'Jungle Action #6', 'B', 'hard'),
 (4, 'What is the name of T''Challa''s father?', 'T''Chaka', 'N''Jobu', 'M''Baku', 'Bashenga', 'A', 'hard');
+
+-- ============================================================
+-- THOR (hero_id = 5)
+-- ============================================================
+INSERT INTO questions (hero_id, question_text, option_a, option_b, option_c, option_d, correct_option, difficulty) VALUES
+(5, 'Thor is the god of what?', 'Thunder', 'War', 'Fire', 'The sea', 'A', 'easy'),
+(5, 'What is the name of Thor''s enchanted hammer?', 'Stormbreaker', 'Mjolnir', 'Gungnir', 'Hofund', 'B', 'easy'),
+(5, 'What realm does Thor come from?', 'Midgard', 'Vanaheim', 'Asgard', 'Jotunheim', 'C', 'easy'),
+(5, 'Who is Thor''s mischievous adopted brother?', 'Balder', 'Loki', 'Heimdall', 'Fandral', 'B', 'easy'),
+(5, 'What color is Thor''s cape usually?', 'Blue', 'Green', 'Red', 'Black', 'C', 'easy'),
+
+(5, 'Who is Thor''s father, the ruler of Asgard?', 'Bor', 'Odin', 'Tyr', 'Vili', 'B', 'medium'),
+(5, 'What rare Asgardian metal is Mjolnir forged from?', 'Vibranium', 'Adamantium', 'Uru', 'Carbonadium', 'C', 'medium'),
+(5, 'What is the name of the rainbow bridge linking Asgard to other realms?', 'Bifrost', 'Yggdrasil', 'Gjallarbru', 'Valhalla', 'A', 'medium'),
+(5, 'Which all-seeing Asgardian guards the Bifrost?', 'Sif', 'Heimdall', 'Volstagg', 'Hogun', 'B', 'medium'),
+(5, 'What powerful axe does Thor wields in addition to his hammer in later stories?', 'Gungnir', 'Stormbreaker', 'Twilight Sword', 'Dragonfang', 'B', 'medium'),
+
+(5, 'What is the prophesied destruction of Asgard called?', 'The Fimbulwinter', 'Ragnarok', 'Surtur''s Dawn', 'Gotterdammerung', 'B', 'hard'),
+(5, 'In what year did Thor first appear in Marvel Comics?', '1958', '1962', '1966', '1970', 'B', 'hard'),
+(5, 'In which comic did Thor make his first appearance?', 'Journey into Mystery #83', 'Thor #1', 'Tales of Asgard #1', 'Avengers #1', 'A', 'hard'),
+(5, 'Who created Thor?', 'Stan Lee and Steve Ditko', 'Stan Lee, Larry Lieber and Jack Kirby', 'Walt Simonson alone', 'Roy Thomas and Gene Colan', 'B', 'hard'),
+(5, 'What fire demon seeks to bring about Ragnarok and destroy Asgard?', 'Ymir', 'Surtur', 'Malekith', 'Mangog', 'B', 'hard');
+
+-- ============================================================
+-- HULK (hero_id = 6)
+-- ============================================================
+INSERT INTO questions (hero_id, question_text, option_a, option_b, option_c, option_d, correct_option, difficulty) VALUES
+(6, 'What is the Hulk''s real name?', 'Bruce Banner', 'Bruce Wayne', 'Reed Richards', 'Hank Pym', 'A', 'easy'),
+(6, 'What color is the Hulk?', 'Red', 'Blue', 'Green', 'Grey', 'C', 'easy'),
+(6, 'What emotion typically triggers Bruce Banner''s transformation into the Hulk?', 'Joy', 'Anger', 'Fear', 'Sadness', 'B', 'easy'),
+(6, 'The Hulk is best known for his incredible what?', 'Speed', 'Intelligence', 'Strength', 'Flight', 'C', 'easy'),
+(6, 'What is the Hulk''s most famous catchphrase?', 'Hulk smash', 'It''s clobberin'' time', 'Avengers assemble', 'Wakanda forever', 'A', 'easy'),
+
+(6, 'What type of radiation created the Hulk?', 'Gamma', 'Cosmic', 'Ultraviolet', 'Solar', 'A', 'medium'),
+(6, 'Who is Bruce Banner''s main love interest?', 'Betty Ross', 'Jennifer Walters', 'Mary Jane Watson', 'Pepper Potts', 'A', 'medium'),
+(6, 'Which military general relentlessly hunts the Hulk?', 'Nick Fury', 'Thaddeus Ross', 'Glenn Talbot', 'John Walker', 'B', 'medium'),
+(6, 'Bruce Banner''s cousin becomes which hero?', 'She-Hulk', 'Spider-Woman', 'Ms. Marvel', 'Wasp', 'A', 'medium'),
+(6, 'On what gladiator planet does the Hulk become a champion in the "Planet Hulk" story?', 'Sakaar', 'Knowhere', 'Battleworld', 'Ego', 'A', 'medium'),
+
+(6, 'In what year did the Hulk first appear in comics?', '1960', '1962', '1964', '1968', 'B', 'hard'),
+(6, 'What color was the Hulk in his very first comic appearance?', 'Green', 'Grey', 'Red', 'Blue', 'B', 'hard'),
+(6, 'Who created the Hulk?', 'Stan Lee and Jack Kirby', 'Stan Lee and Steve Ditko', 'Jack Kirby alone', 'Peter David and Todd McFarlane', 'A', 'hard'),
+(6, 'What is the name of the cunning, suit-wearing grey Hulk persona?', 'Joe Fixit', 'Devil Hulk', 'Doc Green', 'World Breaker', 'A', 'hard'),
+(6, 'What is the name of the evil, future version of the Hulk?', 'Maestro', 'Abomination', 'Red Hulk', 'The Leader', 'A', 'hard');
+
+-- ============================================================
+-- DOCTOR STRANGE (hero_id = 7)
+-- ============================================================
+INSERT INTO questions (hero_id, question_text, option_a, option_b, option_c, option_d, correct_option, difficulty) VALUES
+(7, 'What is Doctor Strange''s real name?', 'Stephen Strange', 'Victor Strange', 'Steven Banner', 'Stephen Vincent', 'A', 'easy'),
+(7, 'What was Stephen Strange''s profession before becoming a sorcerer?', 'Lawyer', 'Surgeon', 'Soldier', 'Scientist', 'B', 'easy'),
+(7, 'Doctor Strange is a master of what?', 'Technology', 'The mystic arts', 'Martial arts only', 'Chemistry', 'B', 'easy'),
+(7, 'What item does Doctor Strange wear that can fly?', 'His boots', 'His cloak', 'His ring', 'His belt', 'B', 'easy'),
+(7, 'What injury ended Stephen Strange''s surgical career?', 'His eyes were blinded', 'His hands were damaged in a car crash', 'His legs were paralysed', 'His back was broken', 'B', 'easy'),
+
+(7, 'Who trained Stephen Strange in the mystic arts?', 'The Ancient One', 'Wong', 'Agamotto', 'Baron Mordo', 'A', 'medium'),
+(7, 'What is the name of Strange''s loyal friend and fellow sorcerer?', 'Wong', 'Cleo', 'Kaecilius', 'Rintrah', 'A', 'medium'),
+(7, 'Which relic houses the Time Stone in the MCU?', 'The Eye of Agamotto', 'The Orb of Agamotto', 'The Wand of Watoomb', 'The Book of Vishanti', 'A', 'medium'),
+(7, 'What is Doctor Strange''s title as Earth''s top protector against magical threats?', 'Sorcerer Supreme', 'Master of Magic', 'High Mage', 'Grand Wizard', 'A', 'medium'),
+(7, 'What is the name of Strange''s mansion headquarters in New York?', 'Sanctum Sanctorum', 'Kamar-Taj', 'The Citadel', 'Hall of Mystics', 'A', 'medium'),
+
+(7, 'In what year did Doctor Strange first appear in comics?', '1961', '1963', '1966', '1968', 'B', 'hard'),
+(7, 'Who is primarily credited with creating Doctor Strange?', 'Steve Ditko', 'Jack Kirby', 'Roy Thomas', 'Jim Starlin', 'A', 'hard'),
+(7, 'Which dark-dimension entity is Doctor Strange''s most iconic foe?', 'Dormammu', 'Nightmare', 'Shuma-Gorath', 'Mephisto', 'A', 'hard'),
+(7, 'What is the name of the temple where Strange first learns the mystic arts?', 'Kamar-Taj', 'K''un-Lun', 'Ta Lo', 'Nidavellir', 'A', 'hard'),
+(7, 'Which of these is one of the Vishanti, the mystic beings Strange invokes for power?', 'Hoggoth', 'Cyttorak', 'Ikonn', 'Watoomb', 'A', 'hard');
+
+-- ============================================================
+-- SCARLET WITCH (hero_id = 8)
+-- ============================================================
+INSERT INTO questions (hero_id, question_text, option_a, option_b, option_c, option_d, correct_option, difficulty) VALUES
+(8, 'What is Scarlet Witch''s real name?', 'Wanda Maximoff', 'Jean Grey', 'Natasha Romanoff', 'Carol Danvers', 'A', 'easy'),
+(8, 'What color is Scarlet Witch''s signature energy and costume?', 'Blue', 'Red', 'Green', 'Gold', 'B', 'easy'),
+(8, 'Scarlet Witch''s powers are based on what?', 'Ice', 'Magic', 'Super speed', 'Water', 'B', 'easy'),
+(8, 'Who is Scarlet Witch''s fast-running twin brother?', 'Quicksilver', 'Vision', 'Hawkeye', 'Cyclops', 'A', 'easy'),
+(8, 'Scarlet Witch is most associated with which superhero team?', 'X-Force', 'The Avengers', 'The Defenders', 'The Inhumans', 'B', 'easy'),
+
+(8, 'Which synthetic Avenger does Wanda fall in love with?', 'Ultron', 'Vision', 'Wonder Man', 'Jocasta', 'B', 'medium'),
+(8, 'In the comics, who was long believed to be Wanda and Pietro''s father?', 'Magneto', 'Professor X', 'The High Evolutionary', 'Odin', 'A', 'medium'),
+(8, 'What is the term for Wanda''s reality-altering power?', 'Chaos magic', 'Psionics', 'Sorcery Supreme', 'Telekinesis', 'A', 'medium'),
+(8, 'In "House of M", Wanda utters which reality-warping phrase?', 'No more mutants', 'Let there be light', 'All is well', 'Reality is mine', 'A', 'medium'),
+(8, 'What are the names of Wanda and Vision''s twin sons?', 'Billy and Tommy', 'Pietro and Lorna', 'Thomas and Wonder', 'Hank and Simon', 'A', 'medium'),
+
+(8, 'In what year did Scarlet Witch first appear in comics?', '1962', '1964', '1966', '1970', 'B', 'hard'),
+(8, 'In which comic did Scarlet Witch first appear?', 'X-Men #4', 'Avengers #1', 'Giant-Size X-Men #1', 'Tales of Suspense #4', 'A', 'hard'),
+(8, 'Who created Scarlet Witch?', 'Stan Lee and Jack Kirby', 'Chris Claremont and John Byrne', 'Steve Ditko and Stan Lee', 'Roy Thomas alone', 'A', 'hard'),
+(8, 'Which demon famously takes away Wanda''s twin sons in the comics?', 'Mephisto', 'Dormammu', 'Chthon', 'Nightmare', 'A', 'hard'),
+(8, 'Which elder god is the source of Wanda''s chaos magic in the comics?', 'Chthon', 'Cyttorak', 'Set', 'Gaea', 'A', 'hard');
+
+-- ============================================================
+-- WOLVERINE (hero_id = 9)
+-- ============================================================
+INSERT INTO questions (hero_id, question_text, option_a, option_b, option_c, option_d, correct_option, difficulty) VALUES
+(9, 'By what single name is Wolverine most commonly known?', 'Logan', 'Scott', 'Victor', 'Warren', 'A', 'easy'),
+(9, 'What comes out of the backs of Wolverine''s hands?', 'Webs', 'Claws', 'Lasers', 'Fire', 'B', 'easy'),
+(9, 'Wolverine is a longtime member of which team?', 'The Avengers', 'The X-Men', 'The Fantastic Four', 'The Defenders', 'B', 'easy'),
+(9, 'What ability lets Wolverine recover quickly from almost any wound?', 'Telepathy', 'A healing factor', 'Flight', 'Invisibility', 'B', 'easy'),
+(9, 'What country is Wolverine originally from?', 'The USA', 'Canada', 'Japan', 'Australia', 'B', 'easy'),
+
+(9, 'What nearly indestructible metal coats Wolverine''s skeleton and claws?', 'Vibranium', 'Adamantium', 'Uru', 'Carbonadium', 'B', 'medium'),
+(9, 'What secret program bonded the metal to Wolverine''s skeleton?', 'Weapon X', 'Project Rebirth', 'Extremis', 'Department H', 'A', 'medium'),
+(9, 'What is Wolverine''s birth name, revealed in the "Origin" series?', 'James Howlett', 'Logan Creed', 'John Logan', 'Victor Creed', 'A', 'medium'),
+(9, 'Who is Wolverine''s savage, claw-wielding longtime rival?', 'Sabretooth', 'Omega Red', 'Deadpool', 'Daken', 'A', 'medium'),
+(9, 'Which female clone is considered Wolverine''s "daughter"?', 'X-23', 'Jubilee', 'Rogue', 'Domino', 'A', 'medium'),
+
+(9, 'In what year did Wolverine make his first full comic appearance?', '1970', '1974', '1978', '1982', 'B', 'hard'),
+(9, 'In which comic did Wolverine make his first full appearance?', 'The Incredible Hulk #181', 'Giant-Size X-Men #1', 'X-Men #1', 'Uncanny X-Men #94', 'A', 'hard'),
+(9, 'Who is credited with creating Wolverine?', 'Roy Thomas, Len Wein and John Romita Sr.', 'Stan Lee and Jack Kirby', 'Chris Claremont and Frank Miller', 'Stan Lee and Steve Ditko', 'A', 'hard'),
+(9, 'In the classic "Japan" saga, who is Wolverine''s great love?', 'Mariko Yashida', 'Yukio', 'Jean Grey', 'Silver Fox', 'A', 'hard'),
+(9, 'What corrosive metal, used by Omega Red, can slow Wolverine''s healing factor?', 'Carbonadium', 'Adamantium', 'Promethium', 'Mysterium', 'A', 'hard');

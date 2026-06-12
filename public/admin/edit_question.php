@@ -1,6 +1,7 @@
 <?php
 require_once '../../includes/auth.php';
 require_once '../../includes/db.php';
+require_once '../../includes/i18n.php';
 
 requireAdmin();
 
@@ -101,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo lang(); ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -109,80 +110,103 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-    <main>
-        <h1>Edit Question</h1>
+    <header class="site-header">
+        <a class="header-left" href="index.php">
+            <span class="brand-marvel">Marvel</span>
+            <span class="brand-trivia">Trivia</span>
+        </a>
+        <nav class="header-right">
+            <a class="lang-toggle" href="<?php echo htmlspecialchars(langSwitchUrl(otherLang())); ?>"><?php echo t('lang.switch'); ?></a>
+            <span class="admin-tag"><?php echo t('admin.tag'); ?></span>
+            <span class="nav-divider"></span>
+            <a class="nav-link" href="../index.php"><?php echo t('nav.viewSite'); ?></a>
+            <a class="nav-btn nav-btn--outline" href="../logout.php"><?php echo t('nav.logout'); ?></a>
+        </nav>
+    </header>
 
-        <p><a href="questions.php">Back to Questions</a></p>
+    <main class="admin-page">
+        <div class="admin-head">
+            <div>
+                <a class="admin-back" href="questions.php"><?php echo t('admin.backToQuestions'); ?></a>
+                <h1 class="admin-title"><?php echo t('admin.editQuestionTitle'); ?></h1>
+                <p class="admin-subtitle">#<?php echo htmlspecialchars($id); ?></p>
+            </div>
+        </div>
 
         <?php if ($error !== ''): ?>
-            <p><?php echo htmlspecialchars($error); ?></p>
+            <div class="admin-error"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
 
-        <form method="post" action="edit_question.php?id=<?php echo htmlspecialchars($id); ?>">
-            <p>
-                <label for="hero_id">Hero</label><br>
-                <select name="hero_id" id="hero_id">
-                    <option value="">Choose a hero</option>
-                    <?php foreach ($heroes as $hero): ?>
-                        <option value="<?php echo htmlspecialchars($hero['id']); ?>" <?php if ($heroId == $hero['id']) echo 'selected'; ?>>
-                            <?php echo htmlspecialchars($hero['name']); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </p>
+        <form class="admin-form" method="post" action="edit_question.php?id=<?php echo htmlspecialchars($id); ?>">
+            <div class="admin-field-row">
+                <div class="admin-field">
+                    <label for="hero_id"><?php echo t('admin.fieldHero'); ?></label>
+                    <select name="hero_id" id="hero_id">
+                        <option value=""><?php echo t('admin.chooseHero'); ?></option>
+                        <?php foreach ($heroes as $hero): ?>
+                            <option value="<?php echo htmlspecialchars($hero['id']); ?>" <?php if ($heroId == $hero['id']) echo 'selected'; ?>>
+                                <?php echo htmlspecialchars($hero['name']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
-            <p>
-                <label for="difficulty">Difficulty</label><br>
-                <select name="difficulty" id="difficulty">
-                    <option value="">Choose difficulty</option>
-                    <?php foreach ($validDifficulties as $difficultyOption): ?>
-                        <option value="<?php echo htmlspecialchars($difficultyOption); ?>" <?php if ($difficulty === $difficultyOption) echo 'selected'; ?>>
-                            <?php echo htmlspecialchars($difficultyOption); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </p>
+                <div class="admin-field">
+                    <label for="difficulty"><?php echo t('admin.fieldDifficulty'); ?></label>
+                    <select name="difficulty" id="difficulty">
+                        <option value=""><?php echo t('admin.chooseDifficulty'); ?></option>
+                        <?php foreach ($validDifficulties as $difficultyOption): ?>
+                            <option value="<?php echo htmlspecialchars($difficultyOption); ?>" <?php if ($difficulty === $difficultyOption) echo 'selected'; ?>>
+                                <?php echo t('diff.' . $difficultyOption); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
 
-            <p>
-                <label for="question_text">Question text</label><br>
+            <div class="admin-field">
+                <label for="question_text"><?php echo t('admin.fieldQuestionText'); ?></label>
                 <textarea name="question_text" id="question_text"><?php echo htmlspecialchars($questionText); ?></textarea>
-            </p>
+            </div>
 
-            <p>
-                <label for="option_a">Option A</label><br>
-                <input type="text" name="option_a" id="option_a" value="<?php echo htmlspecialchars($optionA); ?>">
-            </p>
+            <div class="admin-field-row">
+                <div class="admin-field">
+                    <label for="option_a">Option A</label>
+                    <input type="text" name="option_a" id="option_a" value="<?php echo htmlspecialchars($optionA); ?>">
+                </div>
+                <div class="admin-field">
+                    <label for="option_b">Option B</label>
+                    <input type="text" name="option_b" id="option_b" value="<?php echo htmlspecialchars($optionB); ?>">
+                </div>
+            </div>
 
-            <p>
-                <label for="option_b">Option B</label><br>
-                <input type="text" name="option_b" id="option_b" value="<?php echo htmlspecialchars($optionB); ?>">
-            </p>
+            <div class="admin-field-row">
+                <div class="admin-field">
+                    <label for="option_c">Option C</label>
+                    <input type="text" name="option_c" id="option_c" value="<?php echo htmlspecialchars($optionC); ?>">
+                </div>
+                <div class="admin-field">
+                    <label for="option_d">Option D</label>
+                    <input type="text" name="option_d" id="option_d" value="<?php echo htmlspecialchars($optionD); ?>">
+                </div>
+            </div>
 
-            <p>
-                <label for="option_c">Option C</label><br>
-                <input type="text" name="option_c" id="option_c" value="<?php echo htmlspecialchars($optionC); ?>">
-            </p>
-
-            <p>
-                <label for="option_d">Option D</label><br>
-                <input type="text" name="option_d" id="option_d" value="<?php echo htmlspecialchars($optionD); ?>">
-            </p>
-
-            <p>
-                <label for="correct_option">Correct option</label><br>
+            <div class="admin-field">
+                <label for="correct_option"><?php echo t('admin.fieldCorrect'); ?></label>
                 <select name="correct_option" id="correct_option">
-                    <option value="">Choose correct option</option>
+                    <option value=""><?php echo t('admin.chooseCorrect'); ?></option>
                     <?php foreach ($validCorrectOptions as $correctOptionValue): ?>
                         <option value="<?php echo htmlspecialchars($correctOptionValue); ?>" <?php if ($correctOption === $correctOptionValue) echo 'selected'; ?>>
                             <?php echo htmlspecialchars($correctOptionValue); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
-            </p>
+            </div>
 
-            <p>
-                <button type="submit">Save Question</button>
-            </p>
+            <div class="admin-form-actions">
+                <button class="button" type="submit"><?php echo t('admin.saveQuestion'); ?></button>
+                <a class="button button--ghost" href="questions.php"><?php echo t('admin.cancel'); ?></a>
+            </div>
         </form>
     </main>
 </body>
