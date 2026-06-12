@@ -79,13 +79,13 @@ if ($heroId === false || $heroId === null) {
                     >
                     <div class="hero-content">
                         <span class="hero-eyebrow"><?php echo t('game.heroSelected'); ?></span>
-                        <h2 id="hero-title"><?php echo htmlspecialchars($hero['name']); ?></h2>
+                        <h1 id="hero-title"><?php echo htmlspecialchars($hero['name']); ?></h1>
                         <p><?php echo htmlspecialchars(heroDescription($hero)); ?></p>
                     </div>
                 </div>
 
                 <div class="difficulty-block">
-                    <h3 class="block-title"><?php echo t('game.chooseDifficulty'); ?></h3>
+                    <h2 class="block-title"><?php echo t('game.chooseDifficulty'); ?></h2>
                     <div class="difficulty-cards" role="radiogroup" aria-label="<?php echo t('game.chooseDifficulty'); ?>">
                         <button type="button" class="difficulty-card" data-difficulty="easy" role="radio" aria-checked="false">
                             <span class="diff-label"><?php echo t('diff.easy'); ?></span>
@@ -112,7 +112,7 @@ if ($heroId === false || $heroId === null) {
             </section>
 
             <!-- ───────── PLAY STAGE ───────── -->
-            <section class="quiz-stage quiz-stage--play" id="play-stage" hidden>
+            <div class="quiz-stage quiz-stage--play" id="play-stage" hidden>
                 <div class="quiz-hud">
                     <div class="hud-item">
                         <span class="hud-label"><?php echo t('hud.reward'); ?></span>
@@ -143,7 +143,7 @@ if ($heroId === false || $heroId === null) {
                         <button class="button button--ghost" id="next-question" type="button" hidden><?php echo t('js.next'); ?></button>
                     </div>
                 </article>
-            </section>
+            </div>
 
             <!-- ───────── RESULTS STAGE ───────── -->
             <section class="quiz-stage quiz-stage--results" id="results-stage" hidden>

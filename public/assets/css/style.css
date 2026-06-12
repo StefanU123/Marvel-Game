@@ -383,7 +383,7 @@ body {
     color: var(--gold);
 }
 
-h2#heroes-title {
+h1#heroes-title {
     font-family: var(--font-heading);
     font-size: 1.6rem;
     font-weight: 700;
@@ -398,7 +398,7 @@ h2#heroes-title {
     gap: 0.6rem;
 }
 
-h2#heroes-title::before {
+h1#heroes-title::before {
     content: '';
     width: 4px;
     height: 1.4rem;
@@ -456,7 +456,7 @@ h2#heroes-title::before {
     gap: 0.55rem;
 }
 
-.hero-content h3 {
+.hero-content h2 {
     font-family: var(--font-heading);
     font-size: 1.5rem;
     font-weight: 700;
@@ -485,7 +485,7 @@ h2#heroes-title::before {
         padding: 1.4rem 1.6rem 1.6rem;
         gap: 0.55rem;
     }
-    .hero-content h3 { font-size: 1.55rem; }
+    .hero-content h2 { font-size: 1.55rem; }
     .hero-content p  { font-size: 0.9rem; }
     .hero-content .button { margin-top: 1rem; padding: 0.7rem 1.3rem; }
 }
@@ -862,7 +862,7 @@ h2#heroes-title::before {
     width: fit-content;
 }
 
-.hero-card--setup .hero-content h2 {
+.hero-card--setup .hero-content h1 {
     font-family: var(--font-heading);
     font-size: 2.4rem;
     font-weight: 700;
@@ -2108,7 +2108,7 @@ h2#heroes-title::before {
     }
 
     .hero-image--setup { width: 120px; height: 120px; }
-    .hero-card--setup .hero-content h2 { font-size: 1.5rem; }
+    .hero-card--setup .hero-content h1 { font-size: 1.5rem; }
     .hero-card--setup .hero-content { align-items: center; }
 
     .difficulty-cards { grid-template-columns: 1fr; }

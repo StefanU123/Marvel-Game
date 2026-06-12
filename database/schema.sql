@@ -63,8 +63,8 @@ INSERT INTO heroes (name, description, image_url) VALUES
 ('Black Panther', 'T''Challa is the king of Wakanda and protector of his people as the Black Panther.', 'assets/images/black-panther.jpg'),
 ('Thor', 'The Asgardian god of thunder wields the enchanted hammer Mjolnir to protect the Nine Realms.', 'assets/images/thor.jpg'),
 ('Hulk', 'Bruce Banner transforms into the unstoppable green Hulk whenever his rage takes over.', 'assets/images/hulk.jpg'),
-('Doctor Strange', 'Stephen Strange is a former surgeon turned Sorcerer Supreme, master of the mystic arts.', 'assets/images/Doctor Strange.jpeg'),
-('Scarlet Witch', 'Wanda Maximoff wields chaos magic powerful enough to reshape reality itself.', 'assets/images/scarlet witch.jpg'),
+('Doctor Strange', 'Stephen Strange is a former surgeon turned Sorcerer Supreme, master of the mystic arts.', 'assets/images/doctor-strange.jpeg'),
+('Scarlet Witch', 'Wanda Maximoff wields chaos magic powerful enough to reshape reality itself.', 'assets/images/scarlet-witch.jpg'),
 ('Wolverine', 'Logan is a fierce, regenerating mutant with an adamantium skeleton and retractable claws.', 'assets/images/wolverine.jpg');
 
 -- ============================================================

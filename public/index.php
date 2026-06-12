@@ -54,7 +54,7 @@ try {
     <main class="page-content">
         <div class="home-layout">
             <section class="home-main" aria-labelledby="heroes-title">
-                <h2 id="heroes-title"><?php echo t('index.chooseHero'); ?></h2>
+                <h1 id="heroes-title"><?php echo t('index.chooseHero'); ?></h1>
 
                 <?php if ($errorMessage !== ''): ?>
                     <p class="message"><?php echo htmlspecialchars($errorMessage); ?></p>
@@ -70,7 +70,7 @@ try {
                                     class="hero-image"
                                 >
                                 <div class="hero-content">
-                                    <h3><?php echo htmlspecialchars($hero['name']); ?></h3>
+                                    <h2><?php echo htmlspecialchars($hero['name']); ?></h2>
                                     <p><?php echo htmlspecialchars(heroDescription($hero)); ?></p>
                                     <a class="button" href="game.php?hero_id=<?php echo htmlspecialchars($hero['id']); ?>"><?php echo t('index.startGame'); ?></a>
                                 </div>

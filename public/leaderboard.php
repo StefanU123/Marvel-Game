@@ -126,11 +126,11 @@ function buildFilterUrl(?int $hero, string $diff): string
     <main class="page-content leaderboard-page">
         <section class="leaderboard-hero">
             <span class="leaderboard-hero-eyebrow"><?php echo t('lbp.hallOfHeroes'); ?></span>
-            <h2 class="leaderboard-hero-title"><?php echo t('lbp.title'); ?></h2>
+            <h1 class="leaderboard-hero-title"><?php echo t('lbp.title'); ?></h1>
             <p class="leaderboard-hero-sub"><?php echo t('lbp.subtitle'); ?></p>
         </section>
 
-        <section class="leaderboard-filters" aria-label="<?php echo t('lbp.difficulty'); ?>">
+        <div class="leaderboard-filters" role="group" aria-label="<?php echo t('lbp.difficulty'); ?>">
             <div class="filter-group">
                 <span class="filter-label"><?php echo t('lbp.hero'); ?></span>
                 <div class="filter-chips">
@@ -158,14 +158,14 @@ function buildFilterUrl(?int $hero, string $diff): string
                     <?php endforeach; ?>
                 </div>
             </div>
-        </section>
+        </div>
 
         <?php if ($loadError): ?>
             <p class="message"><?php echo htmlspecialchars($loadError); ?></p>
         <?php else: ?>
 
             <?php if (count($leaderboard) >= 3): ?>
-                <section class="podium" aria-label="Top 3">
+                <div class="podium" role="group" aria-label="Top 3">
                     <?php
                     // Order: 2nd, 1st, 3rd for visual podium
                     $top = array_slice($leaderboard, 0, 3);
@@ -182,7 +182,7 @@ function buildFilterUrl(?int $hero, string $diff): string
                             <div class="podium-bar"></div>
                         </div>
                     <?php endforeach; ?>
-                </section>
+                </div>
             <?php endif; ?>
 
             <section class="leaderboard-section">
